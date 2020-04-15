@@ -62,7 +62,7 @@ class Game extends React.Component {
             history: [{ squares: Array(20).fill(null).map(row => new Array(20).fill(null)) }],
             xIsNext: true,
             mycolor: Array(20).fill("white").map(row => new Array(20).fill("white")),
-            checkpeace: 0,
+            isWin: 0,
 
             stepNumber: 0,
 
@@ -75,9 +75,9 @@ class Game extends React.Component {
         const current = history[history.length - 1];
         const squares = current.squares.map((arr) => {
             return arr.slice();
-        });//đây là cách copy mảng 2 chiều
+        });
         
-        if (squares[i][j]) {
+        if (squares[i][j]!=null ||calculateWinner(squares, i, j, squares[i][j]) != null ) {
             return;
         }
         squares[i][j] = this.state.xIsNext ? "X" : "O";

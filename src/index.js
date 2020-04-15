@@ -62,7 +62,7 @@ class Game extends React.Component {
             history: [{ squares: Array(20).fill(null).map(row => new Array(20).fill(null)) }],
             xIsNext: true,
             mycolor: Array(20).fill("white").map(row => new Array(20).fill("white")),
-            checkpeace: 0,
+            isWin: false,
 
             stepNumber: 0,
 
@@ -77,7 +77,7 @@ class Game extends React.Component {
             return arr.slice();
         });
         
-        if (squares[i][j]) {
+        if (squares[i][j] || this.state.isWin===true ) {
             return;
         }
         squares[i][j] = this.state.xIsNext ? "X" : "O";
@@ -92,15 +92,24 @@ class Game extends React.Component {
         });
 
         // var checkfull= toCheckfull(this.state.squares)
-        if (calculateWinner(squares, i, j, squares[i][j]) != null) {
-            let tmpcolor = calculateWinner(squares, i, j, squares[i][j])
-             this.state.mycolor = tmpcolor
+        if(squares[i][j]!=null)
+        {
+            if (calculateWinner(squares, i, j, squares[i][j]) != null) {
+                let tmpcolor = calculateWinner(squares, i, j, squares[i][j])
+                 this.state.mycolor = tmpcolor
+                 this.state.isWin=true;
+            }                
         }
+       
 
     }
 
     jumpTo(step) {
-
+        if(this.state.isWin===true)
+        {
+            alert("đã Win không thể đi lại")
+            return;
+        }
 
         this.setState({
             stepNumber: step,
@@ -136,7 +145,15 @@ class Game extends React.Component {
 
 
         let status;
-        status = "Next player: " + (xIsNext ? "X" : "O");
+        if(this.state.isWin===true)
+        {
+            status ="WINNER IS " + (xIsNext ? "O" : "X");
+        }
+        else
+        {
+            status = "Next player: " + (xIsNext ? "X" : "O");
+        }
+       
 
         return (
             <div className="game">

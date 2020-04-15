@@ -62,7 +62,7 @@ class Game extends React.Component {
             history: [{ squares: Array(20).fill(null).map(row => new Array(20).fill(null)) }],
             xIsNext: true,
             mycolor: Array(20).fill("white").map(row => new Array(20).fill("white")),
-            isWin: 0,
+            checkpeace: 0,
 
             stepNumber: 0,
 
@@ -77,7 +77,7 @@ class Game extends React.Component {
             return arr.slice();
         });
         
-        if (squares[i][j]!=null ||calculateWinner(squares, i, j, squares[i][j]) != null ) {
+        if (squares[i][j]) {
             return;
         }
         squares[i][j] = this.state.xIsNext ? "X" : "O";
